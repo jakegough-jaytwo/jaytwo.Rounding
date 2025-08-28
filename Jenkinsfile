@@ -1,4 +1,4 @@
 library 'JenkinsBuilderLibrary'
 
-helper.loadNuGetProjectDefaults('jaytwo.Rounding')
-helper.runNuGetProject()
+nugetProject.build(
+    gitHubRepository: 'jaytwo.Rounding')
