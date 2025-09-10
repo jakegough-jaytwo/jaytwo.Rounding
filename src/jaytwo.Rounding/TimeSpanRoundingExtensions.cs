@@ -3,65 +3,74 @@ namespace jaytwo.Rounding;
 public static class TimeSpanRoundingExtensions
 {
     public static TimeSpan FloorDays(this TimeSpan input)
-        => TimeSpan.FromDays(Math.Floor(input.TotalDays));
+        => TimeSpanRounder.FloorDays(input);
+
+    public static TimeSpan? FloorDays(this TimeSpan? input)
+        => TimeSpanRounder.FloorDays(input);
 
     public static TimeSpan CeilingDays(this TimeSpan input)
-        => TimeSpan.FromDays(Math.Ceiling(input.TotalDays));
+        => TimeSpanRounder.CeilingDays(input);
+
+    public static TimeSpan? CeilingDays(this TimeSpan? input)
+        => TimeSpanRounder.CeilingDays(input);
 
     public static TimeSpan TruncateDays(this TimeSpan input)
-        => TimeSpan.FromDays(Math.Truncate(input.TotalDays));
+        => TimeSpanRounder.TruncateDays(input);
+
+    public static TimeSpan? TruncateDays(this TimeSpan? input)
+        => TimeSpanRounder.TruncateDays(input);
 
     public static TimeSpan FloorHours(this TimeSpan input)
-        => TimeSpan.FromHours(Math.Floor(input.TotalHours));
+        => TimeSpanRounder.FloorHours(input);
 
     public static TimeSpan CeilingHours(this TimeSpan input)
-        => TimeSpan.FromHours(Math.Ceiling(input.TotalHours));
+        => TimeSpanRounder.CeilingHours(input);
 
     public static TimeSpan TruncateHours(this TimeSpan input)
-        => TimeSpan.FromHours(Math.Truncate(input.TotalHours));
+        => TimeSpanRounder.TruncateHours(input);
 
     public static TimeSpan FloorMinutes(this TimeSpan input)
-        => TimeSpan.FromMinutes(Math.Floor(input.TotalMinutes));
+        => TimeSpanRounder.FloorMinutes(input);
 
     public static TimeSpan CeilingMinutes(this TimeSpan input)
-        => TimeSpan.FromMinutes(Math.Ceiling(input.TotalMinutes));
+        => TimeSpanRounder.CeilingMinutes(input);
 
     public static TimeSpan TruncateMinutes(this TimeSpan input)
-        => TimeSpan.FromMinutes(Math.Truncate(input.TotalMinutes));
+        => TimeSpanRounder.TruncateMinutes(input);
 
     public static TimeSpan FloorSeconds(this TimeSpan input)
-        => TimeSpan.FromSeconds(Math.Floor(input.TotalSeconds));
+        => TimeSpanRounder.FloorSeconds(input);
 
     public static TimeSpan CeilingSeconds(this TimeSpan input)
-        => TimeSpan.FromSeconds(Math.Ceiling(input.TotalSeconds));
+        => TimeSpanRounder.CeilingSeconds(input);
 
     public static TimeSpan TruncateSeconds(this TimeSpan input)
-        => TimeSpan.FromSeconds(Math.Truncate(input.TotalSeconds));
+        => TimeSpanRounder.TruncateSeconds(input);
 
     public static TimeSpan FloorMilliseconds(this TimeSpan input)
-        => TimeSpan.FromMilliseconds(Math.Floor(input.TotalMilliseconds));
+        => TimeSpanRounder.FloorMilliseconds(input);
 
     public static TimeSpan CeilingMilliseconds(this TimeSpan input)
-        => TimeSpan.FromMilliseconds(Math.Ceiling(input.TotalMilliseconds));
+        => TimeSpanRounder.CeilingMilliseconds(input);
 
     public static TimeSpan TruncateMilliseconds(this TimeSpan input)
-        => TimeSpan.FromMilliseconds(Math.Truncate(input.TotalMilliseconds));
+        => TimeSpanRounder.TruncateMilliseconds(input);
 
-    public static TimeSpan NearestDay(this TimeSpan input, MidpointRounding midpointRounding = default)
-        => TimeSpan.FromDays(Math.Round(input.TotalDays, 0, midpointRounding));
+    public static TimeSpan NearestDay(this TimeSpan input, MidpointRounding midpointRounding = TimeSpanRounder.DefaultTimeMidpointRounding)
+        => TimeSpanRounder.NearestDay(input, midpointRounding);
 
-    public static TimeSpan NearestHour(this TimeSpan input, MidpointRounding midpointRounding = default)
-        => TimeSpan.FromHours(Math.Round(input.TotalHours, 0, midpointRounding));
+    public static TimeSpan NearestHour(this TimeSpan input, MidpointRounding midpointRounding = TimeSpanRounder.DefaultTimeMidpointRounding)
+        => TimeSpanRounder.NearestHour(input, midpointRounding);
 
-    public static TimeSpan NearestMinute(this TimeSpan input, MidpointRounding midpointRounding = default)
-        => TimeSpan.FromMinutes(Math.Round(input.TotalMinutes, 0, midpointRounding));
+    public static TimeSpan NearestMinute(this TimeSpan input, MidpointRounding midpointRounding = TimeSpanRounder.DefaultTimeMidpointRounding)
+        => TimeSpanRounder.NearestMinute(input, midpointRounding);
 
-    public static TimeSpan NearestSecond(this TimeSpan input, MidpointRounding midpointRounding = default)
-        => TimeSpan.FromSeconds(Math.Round(input.TotalSeconds, 0, midpointRounding));
+    public static TimeSpan NearestSecond(this TimeSpan input, MidpointRounding midpointRounding = TimeSpanRounder.DefaultTimeMidpointRounding)
+        => TimeSpanRounder.NearestSecond(input, midpointRounding);
 
-    public static TimeSpan NearestMillisecond(this TimeSpan input, MidpointRounding midpointRounding = default)
-        => TimeSpan.FromMilliseconds(Math.Round(input.TotalMilliseconds, 0, midpointRounding));
+    public static TimeSpan NearestMillisecond(this TimeSpan input, MidpointRounding midpointRounding = TimeSpanRounder.DefaultTimeMidpointRounding)
+        => TimeSpanRounder.NearestMillisecond(input, midpointRounding);
 
-    public static TimeSpan NearestMicrosecond(this TimeSpan input, MidpointRounding midpointRounding = default)
-        => TimeSpan.FromMilliseconds(Math.Round(input.TotalMilliseconds, 3, midpointRounding));
+    public static TimeSpan NearestMicrosecond(this TimeSpan input, MidpointRounding midpointRounding = TimeSpanRounder.DefaultTimeMidpointRounding)
+        => TimeSpanRounder.NearestMicrosecond(input, midpointRounding);
 }

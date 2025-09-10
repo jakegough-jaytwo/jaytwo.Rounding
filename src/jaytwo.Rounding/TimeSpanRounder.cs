@@ -2,6 +2,8 @@ namespace jaytwo.Rounding;
 
 public class TimeSpanRounder
 {
+    internal const MidpointRounding DefaultTimeMidpointRounding = MidpointRounding.ToEven;
+
     public static TimeSpan? Round(TimeSpan? input, TimeSpanRounding precision, AbsoluteRounding mode)
         => input.HasValue ? Round(input.Value, precision, mode) : null;
 
@@ -212,39 +214,39 @@ public class TimeSpanRounder
     public static TimeSpan TruncateMicroseconds(TimeSpan input)
         => TimeSpan.FromMilliseconds(AbsoluteRounder.RoundTruncate(input.TotalMilliseconds, 3));
 
-    public static TimeSpan? NearestDay(TimeSpan? input, MidpointRounding midpointRounding = default)
+    public static TimeSpan? NearestDay(TimeSpan? input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => input.HasValue ? NearestDay(input.Value, midpointRounding) : null;
 
-    public static TimeSpan NearestDay(TimeSpan input, MidpointRounding midpointRounding = default)
+    public static TimeSpan NearestDay(TimeSpan input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => TimeSpan.FromDays(Math.Round(input.TotalDays, 0, midpointRounding));
 
-    public static TimeSpan? NearestHour(TimeSpan? input, MidpointRounding midpointRounding = default)
+    public static TimeSpan? NearestHour(TimeSpan? input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => input.HasValue ? NearestHour(input.Value, midpointRounding) : null;
 
-    public static TimeSpan NearestHour(TimeSpan input, MidpointRounding midpointRounding = default)
+    public static TimeSpan NearestHour(TimeSpan input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => TimeSpan.FromHours(Math.Round(input.TotalHours, 0, midpointRounding));
 
-    public static TimeSpan? NearestMinute(TimeSpan? input, MidpointRounding midpointRounding = default)
+    public static TimeSpan? NearestMinute(TimeSpan? input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => input.HasValue ? NearestMinute(input.Value, midpointRounding) : null;
 
-    public static TimeSpan NearestMinute(TimeSpan input, MidpointRounding midpointRounding = default)
+    public static TimeSpan NearestMinute(TimeSpan input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => TimeSpan.FromMinutes(Math.Round(input.TotalMinutes, 0, midpointRounding));
 
-    public static TimeSpan? NearestSecond(TimeSpan? input, MidpointRounding midpointRounding = default)
+    public static TimeSpan? NearestSecond(TimeSpan? input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => input.HasValue ? NearestSecond(input.Value, midpointRounding) : null;
 
-    public static TimeSpan NearestSecond(TimeSpan input, MidpointRounding midpointRounding = default)
+    public static TimeSpan NearestSecond(TimeSpan input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => TimeSpan.FromSeconds(Math.Round(input.TotalSeconds, 0, midpointRounding));
 
-    public static TimeSpan? NearestMillisecond(TimeSpan? input, MidpointRounding midpointRounding = default)
+    public static TimeSpan? NearestMillisecond(TimeSpan? input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => input.HasValue ? NearestMillisecond(input.Value, midpointRounding) : null;
 
-    public static TimeSpan NearestMillisecond(TimeSpan input, MidpointRounding midpointRounding = default)
+    public static TimeSpan NearestMillisecond(TimeSpan input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => TimeSpan.FromMilliseconds(Math.Round(input.TotalMilliseconds, 0, midpointRounding));
 
-    public static TimeSpan? NearestMicrosecond(TimeSpan? input, MidpointRounding midpointRounding = default)
+    public static TimeSpan? NearestMicrosecond(TimeSpan? input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => input.HasValue ? NearestMicrosecond(input.Value, midpointRounding) : null;
 
-    public static TimeSpan NearestMicrosecond(TimeSpan input, MidpointRounding midpointRounding = default)
+    public static TimeSpan NearestMicrosecond(TimeSpan input, MidpointRounding midpointRounding = DefaultTimeMidpointRounding)
         => TimeSpan.FromMilliseconds(Math.Round(input.TotalMilliseconds, 3, midpointRounding));
 }
