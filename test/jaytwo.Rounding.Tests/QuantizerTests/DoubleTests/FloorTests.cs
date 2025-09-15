@@ -2,12 +2,17 @@ using Xunit;
 
 namespace jaytwo.Rounding.Tests.QuantizerTests.DoubleTests;
 
-public class FloorTests : DoublelQuantizeTests
+public class FloorTests : DoubleQuantizeTests
 {
     [Theory]
     [MemberData(nameof(FloorCases))]
     public void Floor_returns_expected_results(double value, int digits, double expected)
         => QuantizeDoubleAssert(value, digits, expected, (v, d) => Quantizer.Floor(v, d));
+
+    [Theory]
+    [MemberData(nameof(FloorCases))]
+    public void Quantize_Floor_returns_expected_results(double value, int digits, double expected)
+        => QuantizeDoubleAssert(value, digits, expected, (v, d) => Quantizer.Quantize(v, d, QuantizationMode.Floor));
 
     [Theory]
     [MemberData(nameof(FloorCases))]
@@ -19,6 +24,12 @@ public class FloorTests : DoublelQuantizeTests
     [MemberData(nameof(FloorCases))]
     public void Floor_nullable_returns_expected_results(double? value, int digits, double? expected)
         => QuantizeDoubleAssert(value, digits, expected, (v, d) => Quantizer.Floor(v, d));
+
+    [Theory]
+    [InlineData(null, 2, null)]
+    [MemberData(nameof(FloorCases))]
+    public void Quantize_Floor_nullable_returns_expected_results(double? value, int digits, double? expected)
+        => QuantizeDoubleAssert(value, digits, expected, (v, d) => Quantizer.Quantize(v, d, QuantizationMode.Floor));
 
     [Theory]
     [InlineData(null, 2, null)]

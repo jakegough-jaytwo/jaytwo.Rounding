@@ -3,7 +3,7 @@ using Xunit;
 
 namespace jaytwo.Rounding.Tests.QuantizerTests.DoubleTests;
 
-public class DoublelQuantizeTests : QuantizeTestsCases
+public class DoubleQuantizeTests : QuantizeTestsCases
 {
     internal static void QuantizeDoubleAssert(double value, int digits, double expected, Func<double, int, double> quantizeMethod)
     {
