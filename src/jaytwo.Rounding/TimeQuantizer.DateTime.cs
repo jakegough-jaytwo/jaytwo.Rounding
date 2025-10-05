@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace jaytwo.Rounding;
 
@@ -154,11 +155,29 @@ public partial class TimeQuantizer
     public static DateTime TruncateMicroseconds(DateTime input)
         => QuantizeMicroseconds(input, QuantizationMode.Truncate);
 
+    public static DateTime StartOfWeek(DateTime input, DayOfWeek firstDayOfWeek)
+        => input.Date.AddDays(-(7 + (input.DayOfWeek - firstDayOfWeek)) % 7);
+
+    public static DateTime? StartOfWeek(DateTime? input, DayOfWeek firstDayOfWeek)
+        => input.HasValue ? StartOfWeek(input.Value, firstDayOfWeek) : null;
+
+    public static DateTime StartOfWeek(DateTime input, CultureInfo culture)
+        => StartOfWeek(input, culture.DateTimeFormat.FirstDayOfWeek);
+
+    public static DateTime? StartOfWeek(DateTime? input, CultureInfo culture)
+        => input.HasValue ? StartOfWeek(input.Value, culture) : null;
+
     public DateTime? Quantize(DateTime? input)
         => input.HasValue ? Quantize(input.Value) : null;
 
     public DateTime Quantize(DateTime input)
         => QuantizeDateTime(input, x => Quantize(x));
+
+    public DateTime StartOfWeek(DateTime input)
+        => StartOfWeek(input, _firstDayOfWeek);
+
+    public DateTime? StartOfWeek(DateTime? input)
+        => input.HasValue ? StartOfWeek(input.Value) : null;
 
     private static DateTime QuantizeDateTime(DateTime input, Func<TimeSpan, TimeSpan> quantizeMethod)
     {

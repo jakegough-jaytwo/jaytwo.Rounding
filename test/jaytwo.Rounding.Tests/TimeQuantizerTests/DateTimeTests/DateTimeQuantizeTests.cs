@@ -1,3 +1,4 @@
+using System.Globalization;
 using Xunit;
 
 namespace jaytwo.Rounding.Tests.TimeQuantizerTests.DateTimeTests;
@@ -118,7 +119,51 @@ public class DateTimeQuantizeTests
     public static TheoryData<string, string> TruncateDayCases
         => FloorDayCases; // no such thing as negative dates
 
-    internal static void QuantizeTest(string inputStr, string expectedStr, Func<DateTime, DateTime> action)
+    public static TheoryData<string, DayOfWeek, string> StartOfWeekTestsCases
+        => new()
+        {
+            { "2023-01-12 01:23:45", DayOfWeek.Sunday, "2023-01-08 00:00:00" },
+            { "2023-01-12 01:23:45", DayOfWeek.Monday, "2023-01-09 00:00:00" },
+            { "2023-01-12 01:23:45", DayOfWeek.Tuesday, "2023-01-10 00:00:00" },
+            { "2023-01-12 01:23:45", DayOfWeek.Wednesday, "2023-01-11 00:00:00" },
+            { "2023-01-12 01:23:45", DayOfWeek.Thursday, "2023-01-12 00:00:00" },
+            { "2023-01-12 01:23:45", DayOfWeek.Friday, "2023-01-06 00:00:00" },
+            { "2023-01-12 01:23:45", DayOfWeek.Saturday, "2023-01-07 00:00:00" },
+        };
+
+    public static TheoryData<string, string, string> CultureInfoStartOfWeekTestsCases
+        => new()
+        {
+            { "2023-01-12 01:23:45", "en-US", "2023-01-08 00:00:00" }, // starts on sunday
+            { "2023-01-12 01:23:45", "en-GB", "2023-01-09 00:00:00" }, // starts on monday
+        };
+
+    public static TheoryData<string, DateTimeKind, string> StartOfWeekDateTimeKindTestsCases
+        => new()
+        {
+            // DST "spring forward"
+            { "2025-03-09 01:30:00", DateTimeKind.Local, "2025-03-09 00:00:00" }, // pre transition in US DST
+            { "2025-03-09 01:30:00", DateTimeKind.Utc, "2025-03-09 00:00:00" },
+            { "2025-03-09 01:30:00", DateTimeKind.Unspecified, "2025-03-09 00:00:00" },
+            { "2025-03-09 02:30:00", DateTimeKind.Local, "2025-03-09 00:00:00" }, // invalid time in US DST
+            { "2025-03-09 02:30:00", DateTimeKind.Utc, "2025-03-09 00:00:00" },
+            { "2025-03-09 02:30:00", DateTimeKind.Unspecified, "2025-03-09 00:00:00" },
+            { "2025-03-09 03:30:00", DateTimeKind.Local, "2025-03-09 00:00:00" }, // post transition in US DST
+            { "2025-03-09 03:30:00", DateTimeKind.Utc, "2025-03-09 00:00:00" },
+            { "2025-03-09 03:30:00", DateTimeKind.Unspecified, "2025-03-09 00:00:00" },
+            // DST "fall back"
+            { "2025-11-02 00:30:00", DateTimeKind.Local, "2025-11-02 00:00:00" }, // pre transition in US DST
+            { "2025-11-02 00:30:00", DateTimeKind.Utc, "2025-11-02 00:00:00" },
+            { "2025-11-02 00:30:00", DateTimeKind.Unspecified, "2025-11-02 00:00:00" },
+            { "2025-11-02 01:30:00", DateTimeKind.Local, "2025-11-02 00:00:00" }, // ambiguous time in US DST
+            { "2025-11-02 01:30:00", DateTimeKind.Utc, "2025-11-02 00:00:00" },
+            { "2025-11-02 01:30:00", DateTimeKind.Unspecified, "2025-11-02 00:00:00" },
+            { "2025-11-02 02:30:00", DateTimeKind.Local, "2025-11-02 00:00:00" }, // post transition in US DST
+            { "2025-11-02 02:30:00", DateTimeKind.Utc, "2025-11-02 00:00:00" },
+            { "2025-11-02 02:30:00", DateTimeKind.Unspecified, "2025-11-02 00:00:00" },
+        };
+
+    internal static DateTime QuantizeTest(string inputStr, string expectedStr, Func<DateTime, DateTime> action)
     {
         // arrange
         var date = DateTime.Parse(inputStr);
@@ -129,9 +174,11 @@ public class DateTimeQuantizeTests
 
         // assert
         Assert.Equal(expected, actual);
+
+        return actual;
     }
 
-    internal static void Nullable_QuantizeTest(string? inputStr, string? expectedStr, Func<DateTime?, DateTime?> action)
+    internal static DateTime? Nullable_QuantizeTest(string? inputStr, string? expectedStr, Func<DateTime?, DateTime?> action)
     {
         // arrange
         var date = DateTimeParse(inputStr);
@@ -142,6 +189,8 @@ public class DateTimeQuantizeTests
 
         // assert
         Assert.Equal(expected, actual);
+
+        return actual;
     }
 
     internal static DateTime? DateTimeParse(string? inputStr) => !string.IsNullOrEmpty(inputStr) ? DateTime.Parse(inputStr) : null;
