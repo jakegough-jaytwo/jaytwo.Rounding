@@ -167,6 +167,20 @@ public partial class TimeQuantizer
     public static DateTime? StartOfWeek(DateTime? input, CultureInfo culture)
         => input.HasValue ? StartOfWeek(input.Value, culture) : null;
 
+#if NET5_0_OR_GREATER
+    public static DateOnly StartOfWeek(DateOnly input, DayOfWeek firstDayOfWeek)
+        => input.AddDays(-(7 + (input.DayOfWeek - firstDayOfWeek)) % 7);
+
+    public static DateOnly? StartOfWeek(DateOnly? input, DayOfWeek firstDayOfWeek)
+        => input.HasValue ? StartOfWeek(input.Value, firstDayOfWeek) : null;
+
+    public static DateOnly StartOfWeek(DateOnly input, CultureInfo culture)
+        => StartOfWeek(input, culture.DateTimeFormat.FirstDayOfWeek);
+
+    public static DateOnly? StartOfWeek(DateOnly? input, CultureInfo culture)
+        => input.HasValue ? StartOfWeek(input.Value, culture) : null;
+#endif
+
     public DateTime? Quantize(DateTime? input)
         => input.HasValue ? Quantize(input.Value) : null;
 
@@ -178,6 +192,14 @@ public partial class TimeQuantizer
 
     public DateTime? StartOfWeek(DateTime? input)
         => input.HasValue ? StartOfWeek(input.Value) : null;
+
+#if NET5_0_OR_GREATER
+    public DateOnly StartOfWeek(DateOnly input)
+        => StartOfWeek(input, _firstDayOfWeek);
+
+    public DateOnly? StartOfWeek(DateOnly? input)
+        => input.HasValue ? StartOfWeek(input.Value) : null;
+#endif
 
     private static DateTime QuantizeDateTime(DateTime input, Func<TimeSpan, TimeSpan> quantizeMethod)
     {

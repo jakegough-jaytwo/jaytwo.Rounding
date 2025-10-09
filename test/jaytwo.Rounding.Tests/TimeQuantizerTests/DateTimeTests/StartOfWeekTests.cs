@@ -61,6 +61,39 @@ public class StartOfWeekTests : DateTimeQuantizeTests
     public void Nullable_StartOfWeek_CultureInfo_Returns_Expected(string? inputStr, string culture, string? expectedStr)
         => Nullable_QuantizeTest(inputStr, expectedStr, x => TimeQuantizer.StartOfWeek(x, CultureInfo.GetCultureInfo(culture)));
 
+    [Theory]
+    [MemberData(nameof(StartOfWeekTestsCases))]
+    public void StartOfWeek_DateOnly_Returns_Expected(string inputStr, DayOfWeek firstDayOfWeek, string expectedStr)
+        => QuantizeTest_DateOnly(inputStr, expectedStr, x => TimeQuantizer.StartOfWeek(x, firstDayOfWeek));
+
+    [Theory]
+    [InlineData(null, DayOfWeek.Sunday, null)]
+    [MemberData(nameof(StartOfWeekTestsCases))]
+    public void Nullable_StartOfWeek_DateOnly_Returns_Expected(string? inputStr, DayOfWeek firstDayOfWeek, string? expectedStr)
+        => Nullable_QuantizeTest_DateOnly(inputStr, expectedStr, x => TimeQuantizer.StartOfWeek(x, firstDayOfWeek));
+
+    [Theory]
+    [MemberData(nameof(StartOfWeekTestsCases))]
+    public void Instance_StartOfWeek_DateOnly_Returns_Expected(string inputStr, DayOfWeek firstDayOfWeek, string expectedStr)
+        => QuantizeTest_DateOnly(inputStr, expectedStr, x => new TimeQuantizer(default, firstDayOfWeek: firstDayOfWeek).StartOfWeek(x));
+
+    [Theory]
+    [InlineData(null, DayOfWeek.Sunday, null)]
+    [MemberData(nameof(StartOfWeekTestsCases))]
+    public void Nullable_Instance_StartOfWeek_DateOnly_Returns_Expected(string? inputStr, DayOfWeek firstDayOfWeek, string? expectedStr)
+        => Nullable_QuantizeTest_DateOnly(inputStr, expectedStr, x => new TimeQuantizer(default, firstDayOfWeek: firstDayOfWeek).StartOfWeek(x));
+
+    [Theory]
+    [MemberData(nameof(CultureInfoStartOfWeekTestsCases))]
+    public void StartOfWeek_DateOnly_CultureInfo_Returns_Expected(string inputStr, string culture, string expectedStr)
+        => QuantizeTest_DateOnly(inputStr, expectedStr, x => TimeQuantizer.StartOfWeek(x, CultureInfo.GetCultureInfo(culture)));
+
+    [Theory]
+    [InlineData(null, "en-US", null)]
+    [MemberData(nameof(CultureInfoStartOfWeekTestsCases))]
+    public void Nullable_StartOfWeek_DateOnly_CultureInfo_Returns_Expected(string? inputStr, string culture, string? expectedStr)
+        => Nullable_QuantizeTest_DateOnly(inputStr, expectedStr, x => TimeQuantizer.StartOfWeek(x, CultureInfo.GetCultureInfo(culture)));
+
     internal static void StartOfWeek_Returns_Expected_DateTimeKind_Test(string inputStr, DateTimeKind kind, string expectedStr, Func<DateTime, DateTime> action)
     {
         var actual = QuantizeTest(inputStr, expectedStr, x => action(DateTime.SpecifyKind(x, kind)));

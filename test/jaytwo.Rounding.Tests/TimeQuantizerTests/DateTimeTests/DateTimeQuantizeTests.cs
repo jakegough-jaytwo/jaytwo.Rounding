@@ -193,5 +193,37 @@ public class DateTimeQuantizeTests
         return actual;
     }
 
+    internal static DateOnly QuantizeTest_DateOnly(string inputStr, string expectedStr, Func<DateOnly, DateOnly> action)
+    {
+        // arrange
+        var date = DateOnly.FromDateTime(DateTime.Parse(inputStr));
+        var expected = DateOnly.FromDateTime(DateTime.Parse(expectedStr));
+
+        // act
+        var actual = action(date);
+
+        // assert
+        Assert.Equal(expected, actual);
+
+        return actual;
+    }
+
+    internal static DateOnly? Nullable_QuantizeTest_DateOnly(string? inputStr, string? expectedStr, Func<DateOnly?, DateOnly?> action)
+    {
+        // arrange
+        var date = DateOnlyParse(inputStr);
+        var expected = DateOnlyParse(expectedStr);
+
+        // act
+        var actual = action(date);
+
+        // assert
+        Assert.Equal(expected, actual);
+
+        return actual;
+    }
+
+    internal static DateOnly? DateOnlyParse(string? inputStr) => !string.IsNullOrEmpty(inputStr) ? DateOnly.FromDateTime(DateTime.Parse(inputStr)) : null;
+
     internal static DateTime? DateTimeParse(string? inputStr) => !string.IsNullOrEmpty(inputStr) ? DateTime.Parse(inputStr) : null;
 }
