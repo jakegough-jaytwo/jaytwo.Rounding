@@ -61,6 +61,7 @@ public class StartOfWeekTests : DateTimeQuantizeTests
     public void Nullable_StartOfWeek_CultureInfo_Returns_Expected(string? inputStr, string culture, string? expectedStr)
         => Nullable_QuantizeTest(inputStr, expectedStr, x => TimeQuantizer.StartOfWeek(x, CultureInfo.GetCultureInfo(culture)));
 
+#if NET50_OR_GREATER
     [Theory]
     [MemberData(nameof(StartOfWeekTestsCases))]
     public void StartOfWeek_DateOnly_Returns_Expected(string inputStr, DayOfWeek firstDayOfWeek, string expectedStr)
@@ -93,6 +94,7 @@ public class StartOfWeekTests : DateTimeQuantizeTests
     [MemberData(nameof(CultureInfoStartOfWeekTestsCases))]
     public void Nullable_StartOfWeek_DateOnly_CultureInfo_Returns_Expected(string? inputStr, string culture, string? expectedStr)
         => Nullable_QuantizeTest_DateOnly(inputStr, expectedStr, x => TimeQuantizer.StartOfWeek(x, CultureInfo.GetCultureInfo(culture)));
+#endif
 
     internal static void StartOfWeek_Returns_Expected_DateTimeKind_Test(string inputStr, DateTimeKind kind, string expectedStr, Func<DateTime, DateTime> action)
     {

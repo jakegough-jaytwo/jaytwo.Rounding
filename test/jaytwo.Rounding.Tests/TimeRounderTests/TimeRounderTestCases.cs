@@ -4,6 +4,7 @@ namespace jaytwo.Rounding.Tests;
 
 public class TimeRounderTestCases
 {
+#if NET7_0_OR_GREATER
     internal static void AssertNearestMicrosecond(double value, double expected, Func<TimeSpan, TimeSpan> roundMethod)
     {
         // arrange
@@ -27,11 +28,12 @@ public class TimeRounderTestCases
         // assert
         Assert.Equal(expected, actual);
     }
+#endif
 
     internal static void AssertNearestMillisecond(double value, double expected, Func<TimeSpan, TimeSpan> roundMethod)
     {
         // arrange
-        var timespan = TimeSpan.FromMilliseconds(value);
+        var timespan = TimeSpan.FromTicks((long)(value * TimeSpan.TicksPerMillisecond));
 
         // act
         var actual = roundMethod(timespan).TotalMilliseconds;
@@ -55,7 +57,7 @@ public class TimeRounderTestCases
     internal static void AssertNearestSecond(double value, double expected, Func<TimeSpan, TimeSpan> roundMethod)
     {
         // arrange
-        var timespan = TimeSpan.FromSeconds(value);
+        var timespan = TimeSpan.FromTicks((long)(value * TimeSpan.TicksPerSecond));
 
         // act
         var actual = roundMethod(timespan).TotalSeconds;
@@ -79,7 +81,7 @@ public class TimeRounderTestCases
     internal static void AssertNearestMinute(double value, double expected, Func<TimeSpan, TimeSpan> roundMethod)
     {
         // arrange
-        var timespan = TimeSpan.FromMinutes(value);
+        var timespan = TimeSpan.FromTicks((long)(value * TimeSpan.TicksPerMinute));
 
         // act
         var actual = roundMethod(timespan).TotalMinutes;
@@ -103,7 +105,7 @@ public class TimeRounderTestCases
     internal static void AssertNearestHour(double value, double expected, Func<TimeSpan, TimeSpan> roundMethod)
     {
         // arrange
-        var timespan = TimeSpan.FromHours(value);
+        var timespan = TimeSpan.FromTicks((long)(value * TimeSpan.TicksPerHour));
 
         // act
         var actual = roundMethod(timespan).TotalHours;
@@ -127,7 +129,7 @@ public class TimeRounderTestCases
     internal static void AssertNearestDay(double value, double expected, Func<TimeSpan, TimeSpan> roundMethod)
     {
         // arrange
-        var timespan = TimeSpan.FromDays(value);
+        var timespan = TimeSpan.FromTicks((long)(value * TimeSpan.TicksPerDay));
 
         // act
         var actual = roundMethod(timespan).TotalDays;
@@ -148,15 +150,17 @@ public class TimeRounderTestCases
         Assert.Equal(expected, actual);
     }
 
-    internal static TimeSpan? TimeSpanFromDays(double? value) => value.HasValue ? TimeSpan.FromDays(value.Value) : null;
+    internal static TimeSpan? TimeSpanFromDays(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerDay)) : null;
 
-    internal static TimeSpan? TimeSpanFromHours(double? value) => value.HasValue ? TimeSpan.FromHours(value.Value) : null;
+    internal static TimeSpan? TimeSpanFromHours(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerHour)) : null;
 
-    internal static TimeSpan? TimeSpanFromMinutes(double? value) => value.HasValue ? TimeSpan.FromMinutes(value.Value) : null;
+    internal static TimeSpan? TimeSpanFromMinutes(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerMinute)) : null;
 
-    internal static TimeSpan? TimeSpanFromSeconds(double? value) => value.HasValue ? TimeSpan.FromSeconds(value.Value) : null;
+    internal static TimeSpan? TimeSpanFromSeconds(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerSecond)) : null;
 
-    internal static TimeSpan? TimeSpanFromMilliseconds(double? value) => value.HasValue ? TimeSpan.FromMilliseconds(value.Value) : null;
+    internal static TimeSpan? TimeSpanFromMilliseconds(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerMillisecond)) : null;
 
-    internal static TimeSpan? TimeSpanFromMicroseconds(double? value) => value.HasValue ? TimeSpan.FromMicroseconds(value.Value) : null;
+#if NET7_0_OR_GREATER
+    internal static TimeSpan? TimeSpanFromMicroseconds(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerMicrosecond)) : null;
+#endif
 }

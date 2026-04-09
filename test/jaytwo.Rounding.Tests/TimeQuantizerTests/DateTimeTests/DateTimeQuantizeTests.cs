@@ -193,6 +193,7 @@ public class DateTimeQuantizeTests
         return actual;
     }
 
+#if NET5_0_OR_GREATER
     internal static DateOnly QuantizeTest_DateOnly(string inputStr, string expectedStr, Func<DateOnly, DateOnly> action)
     {
         // arrange
@@ -224,6 +225,7 @@ public class DateTimeQuantizeTests
     }
 
     internal static DateOnly? DateOnlyParse(string? inputStr) => !string.IsNullOrEmpty(inputStr) ? DateOnly.FromDateTime(DateTime.Parse(inputStr)) : null;
+#endif
 
     internal static DateTime? DateTimeParse(string? inputStr) => !string.IsNullOrEmpty(inputStr) ? DateTime.Parse(inputStr) : null;
 }

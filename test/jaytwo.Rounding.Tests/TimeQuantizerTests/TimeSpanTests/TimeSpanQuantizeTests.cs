@@ -28,6 +28,7 @@ public class TimeSpanQuantizeTests
             { -1.5, -1.0 },
         };
 
+#if NET7_0_OR_GREATER
     internal static void MicrosecondsTest(double value, double expected, Func<TimeSpan, TimeSpan> action)
     {
         // arrange
@@ -51,11 +52,12 @@ public class TimeSpanQuantizeTests
         // assert
         Assert.Equal(expected, actual);
     }
+#endif
 
     internal static void MillisecondsTest(double value, double expected, Func<TimeSpan, TimeSpan> action)
     {
         // arrange
-        var timespan = TimeSpan.FromMilliseconds(value);
+        var timespan = TimeSpan.FromTicks((long)(value * TimeSpan.TicksPerMillisecond));
 
         // act
         var actual = action(timespan).TotalMilliseconds;
@@ -79,7 +81,7 @@ public class TimeSpanQuantizeTests
     internal static void SecondsTest(double value, double expected, Func<TimeSpan, TimeSpan> action)
     {
         // arrange
-        var timespan = TimeSpan.FromSeconds(value);
+        var timespan = TimeSpan.FromTicks((long)(value * TimeSpan.TicksPerSecond));
 
         // act
         var actual = action(timespan).TotalSeconds;
@@ -103,7 +105,7 @@ public class TimeSpanQuantizeTests
     internal static void MinutesTest(double value, double expected, Func<TimeSpan, TimeSpan> action)
     {
         // arrange
-        var timespan = TimeSpan.FromMinutes(value);
+        var timespan = TimeSpan.FromTicks((long)(value * TimeSpan.TicksPerMinute));
 
         // act
         var actual = action(timespan).TotalMinutes;
@@ -127,7 +129,7 @@ public class TimeSpanQuantizeTests
     internal static void HoursTest(double value, double expected, Func<TimeSpan, TimeSpan> action)
     {
         // arrange
-        var timespan = TimeSpan.FromHours(value);
+        var timespan = TimeSpan.FromTicks((long)(value * TimeSpan.TicksPerHour));
 
         // act
         var actual = action(timespan).TotalHours;
@@ -151,7 +153,7 @@ public class TimeSpanQuantizeTests
     internal static void DaysTest(double value, double expected, Func<TimeSpan, TimeSpan> action)
     {
         // arrange
-        var timespan = TimeSpan.FromDays(value);
+        var timespan = TimeSpan.FromTicks((long)(value * TimeSpan.TicksPerDay));
 
         // act
         var actual = action(timespan).TotalDays;
@@ -172,15 +174,17 @@ public class TimeSpanQuantizeTests
         Assert.Equal(expected, actual);
     }
 
-    internal static TimeSpan? TimeSpanFromDays(double? value) => value.HasValue ? TimeSpan.FromDays(value.Value) : null;
+    internal static TimeSpan? TimeSpanFromDays(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerDay)) : null;
 
-    internal static TimeSpan? TimeSpanFromHours(double? value) => value.HasValue ? TimeSpan.FromHours(value.Value) : null;
+    internal static TimeSpan? TimeSpanFromHours(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerHour)) : null;
 
-    internal static TimeSpan? TimeSpanFromMinutes(double? value) => value.HasValue ? TimeSpan.FromMinutes(value.Value) : null;
+    internal static TimeSpan? TimeSpanFromMinutes(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerMinute)) : null;
 
-    internal static TimeSpan? TimeSpanFromSeconds(double? value) => value.HasValue ? TimeSpan.FromSeconds(value.Value) : null;
+    internal static TimeSpan? TimeSpanFromSeconds(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerSecond)) : null;
 
-    internal static TimeSpan? TimeSpanFromMilliseconds(double? value) => value.HasValue ? TimeSpan.FromMilliseconds(value.Value) : null;
+    internal static TimeSpan? TimeSpanFromMilliseconds(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerMillisecond)) : null;
 
-    internal static TimeSpan? TimeSpanFromMicroseconds(double? value) => value.HasValue ? TimeSpan.FromMicroseconds(value.Value) : null;
+#if NET7_0_OR_GREATER
+    internal static TimeSpan? TimeSpanFromMicroseconds(double? value) => value.HasValue ? TimeSpan.FromTicks((long)(value.Value * TimeSpan.TicksPerMicrosecond)) : null;
+#endif
 }

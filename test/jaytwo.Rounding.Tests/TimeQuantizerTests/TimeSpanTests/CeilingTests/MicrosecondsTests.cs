@@ -3,6 +3,7 @@ using Xunit;
 
 namespace jaytwo.Rounding.Tests.TimeQuantizerTests.TimeSpanTests.CeilingTests;
 
+#if NET7_0_OR_GREATER
 public class MicrosecondsTests : TimeSpanQuantizeTests
 {
     [Theory]
@@ -60,3 +61,4 @@ public class MicrosecondsTests : TimeSpanQuantizeTests
     public void Nullable_Extension_Ceiling_Microseconds_Returns_Expected(double? value, double? expected)
         => Nullable_MicrosecondsTest(value, expected, x => x.CeilingMicroseconds());
 }
+#endif

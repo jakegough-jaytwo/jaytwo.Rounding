@@ -2,6 +2,7 @@ using Xunit;
 
 namespace jaytwo.Rounding.Tests.TimeRounderTests.AwayFromZeroTests;
 
+#if NET7_0_OR_GREATER
 public class MicrosecondTests : AwayFromZeroTestCases
 {
     [Theory]
@@ -48,3 +49,4 @@ public class MicrosecondTests : AwayFromZeroTestCases
     public void Nullable_Extension_NearestMicrosecond_Returns_Expected(double? value, double? expected)
         => NullableAssertNearestMicrosecond(value, expected, x => x.NearestMicrosecond(RoundingMode));
 }
+#endif
